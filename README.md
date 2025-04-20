@@ -4,6 +4,7 @@ This is a data engineering project focused on building a modern data warehouse u
 This project involves setting up and managing a sample CRM and ERP system using MySQL. We created six relational tables distributed across two schemas (crm and erp) using simple CREATE TABLE commands.
 
 🗂️ Schemas and Tables
+
 CRM Schema (crm)
 1. cust_info – Contains customer information.
 2. prd_info – Contains product details.
