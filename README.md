@@ -15,3 +15,33 @@ ERP Schema (erp)
 2. loca101 – Stores location-specific data (e.g., branches, warehouses).
 3. px_cat_g1v2 – Stores product category and classification information.
  
+Bronze Table: bronze.crm_cust_info
+The bronze table stores raw CSV data. All fields are imported as VARCHAR(50) to ensure flexibility during the initial data load.
+
+Schema:
+Column Name	Data Type
+cst_id	VARCHAR(50)
+cst_key	VARCHAR(50)
+cst_firstname	VARCHAR(50)
+cst_lastname	VARCHAR(50)
+cst_marital_status	VARCHAR(50)
+cst_gndr	VARCHAR(50)
+cst_create_date	VARCHAR(50)
+
+We use the LOAD DATA INFILE command to load cust_info.csv into the bronze table.
+
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/cust_info.csv'
+INTO TABLE bronze.crm_cust_info
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(cst_id, cst_key, cst_firstname, cst_lastname, cst_marital_status, cst_gndr, @cst_create_date)
+SET
+  cst_id            = NULLIF(cst_id, ''),
+  cst_key           = NULLIF(cst_key, ''),
+  cst_firstname     = NULLIF(cst_firstname, ''),
+  cst_lastname      = NULLIF(cst_lastname, ''),
+  cst_marital_status= NULLIF(cst_marital_status, ''),
+  cst_gndr          = NULLIF(cst_gndr, ''),
+  cst_create_date   = NULLIF(TRIM(REPLACE(@cst_create_date, '"', '')), '');
