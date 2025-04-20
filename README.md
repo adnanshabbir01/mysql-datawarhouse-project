@@ -30,29 +30,4 @@ cst_create_date	VARCHAR(50)
 
 We use the LOAD DATA INFILE command to load cust_info.csv into the bronze table.
 
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/cust_info.csv'
-INTO TABLE bronze.crm_cust_info
-FIELDS TERMINATED BY ',' 
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 LINES
-(
-  cst_id,
-  cst_key,
-  cst_firstname,
-  cst_lastname,
-  cst_marital_status,
-  cst_gndr,
-  @cst_create_date
-)
-SET
-  cst_id             = NULLIF(cst_id, ''),
-  cst_key            = NULLIF(cst_key, ''),
-  cst_firstname      = NULLIF(cst_firstname, ''),
-  cst_lastname       = NULLIF(cst_lastname, ''),
-  cst_marital_status = NULLIF(cst_marital_status, ''),
-  cst_gndr           = NULLIF(cst_gndr, ''),
-  cst_create_date    = NULLIF(
-                         TRIM(REPLACE(@cst_create_date, '"', '')),
-                         ''
-                       );
+Similarly, we will import data for the other tables using the same approach.
